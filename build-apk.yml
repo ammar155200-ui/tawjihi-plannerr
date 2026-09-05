@@ -1,0 +1,41 @@
+name: بناء APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: تثبيت الحزم
+        run: npm install
+
+      - name: تجهيز مشروع أندرويد
+        run: npx cap add android || npx cap sync android
+
+      - name: بناء APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: رفع الملف
+        uses: actions/upload-artifact@v4
+        with:
+          name: tawjihi-planner-apk
+          path: android/app/build/outputs/apk/debug/*.apk
