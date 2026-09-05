@@ -1,0 +1,16 @@
+{
+  "name": "tawjihi-planner",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "sync": "cap add android || cap sync android",
+    "apk": "cd android && ./gradlew assembleDebug"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  }
+}
